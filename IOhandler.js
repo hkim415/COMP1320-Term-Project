@@ -11,7 +11,8 @@
 const unzipper = require('unzipper'),
   fs = require("fs"),
   PNG = require('pngjs').PNG,
-  path = require('path');
+  path = require('path'),
+  { pipeline } = require('stream');
 
 
 /**
@@ -22,7 +23,8 @@ const unzipper = require('unzipper'),
  * @return {promise}
  */
 const unzip = (pathIn, pathOut) => {
-
+  fs.createReadStream(pathIn)
+    .pipe(unzipper.Extract({path: pathOut}));
 };
 
 /**

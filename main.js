@@ -3,8 +3,8 @@
  * File Name: main.js
  * Description: 
  * 
- * Created Date: 
- * Author:
+ * Created Date: November 8, 2020
+ * Author: Hongsoon Kim
  * 
  */
 
