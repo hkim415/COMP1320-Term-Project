@@ -23,8 +23,18 @@ const unzipper = require('unzipper'),
  * @return {promise}
  */
 const unzip = (pathIn, pathOut) => {
-  fs.createReadStream(pathIn)
-    .pipe(unzipper.Extract({path: pathOut}));
+  pipeline(
+    fs.createReadStream(pathIn),
+    unzipper.Extract({path: pathOut}),
+    function onEnd (err) {
+      if(err) {
+        console.error('Error occurred: ', err);
+        process.exit(1);
+      }
+
+      console.log('Extraction operation complete');
+    }
+  )
 };
 
 /**
@@ -48,6 +58,8 @@ const readDir = dir => {
 const grayScale = (pathIn, pathOut) => {
 
 };
+
+unzip('./myfile.zip', './unzipped/');
 
 module.exports = {
   unzip,
