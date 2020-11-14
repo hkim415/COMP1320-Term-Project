@@ -43,8 +43,18 @@ const unzip = (pathIn, pathOut) => {
  * @param {string} path 
  * @return {promise}
  */
-const readDir = dir => {
-
+const readDir = (dir) => {
+  let arr = [];
+  fs.readdir(dir, (err, files) => {
+    if(err) {
+      console.log('err');
+    }
+    for (let i = 0; i < (files.length - 1); i++) {
+      arr.push(dir + files[i]);
+      console.log('arr', arr)
+    }
+  })
+  return arr;
 };
 
 /**
@@ -56,10 +66,30 @@ const readDir = dir => {
  * @return {promise}
  */
 const grayScale = (pathIn, pathOut) => {
-
+  fs.readdir(pathIn, (err, files) => {
+    if(err) {
+      console.log('error');
+    }
+    for (let i = 0; i < (files.length - 1); i++) {
+      fs.createReadStream(pathIn + files[i])
+      .pipe(
+        new PNG({
+          filterType: 4,
+        })
+      )
+      .on('parsed', () => {
+        console.log(this);
+      })
+      .on('error', (err) => {
+        console.log(err);
+      })
+    }
+  })
 };
 
 unzip('./myfile.zip', './unzipped/');
+
+grayScale('./unzipped/', './unzipped/new');
 
 module.exports = {
   unzip,
