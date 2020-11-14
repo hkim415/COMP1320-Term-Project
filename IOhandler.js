@@ -87,9 +87,6 @@ const grayScale = (pathIn, pathOut) => {
   })
 };
 
-unzip('./myfile.zip', './unzipped/');
-
-grayScale('./unzipped/', './unzipped/new');
 
 module.exports = {
   unzip,

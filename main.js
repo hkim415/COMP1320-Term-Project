@@ -9,8 +9,23 @@
  */
 
 const IOhandler = require("./IOhandler"),
-  zipFilePath = `${__dirname}/myfile.zip`,
-  pathUnzipped = `${__dirname}/unzipped`,
-  pathProcessed = `${__dirname}/grayscaled`;
+  zipFilePath = `./myfile.zip`,
+  pathUnzipped = `./unzipped`,
+  pathProcessed = `./grayscaled`;
 
+let runFunction = (func, pathIn, pathOut) => {
+  return new Promise((res, rej) => {
+    func(pathIn, pathOut, (err) => {
+      if (err) {
+        rej(err);
+      } else {
+        return res;
+      }
+    })
+  })
+}
 
+runFunction(IOhandler.unzip, zipFilePath, pathUnzipped)
+  .then(runFunction(IOhandler.readDir, pathUnzipped))
+  .then(runFunction(IOhandler.grayScale, pathUnzipped, pathProcessed))
+  .catch(err => console.log(err));
